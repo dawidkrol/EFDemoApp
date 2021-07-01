@@ -89,15 +89,47 @@ namespace DITraining
             //_people.SaveChanges();
 
             //IMPORTANT INCLUDE()
-            var e = _people.Employees.Include("WorkDones");
-            foreach (var item in e)
+            //var e = _people.Employees.Include("WorkDones");
+            //foreach (var item in e)
+            //{
+            //    Console.WriteLine($"{item.FirstName} {item.LastName}: ");
+            //    foreach (var works in item.WorkDones)
+            //    {
+            //        Console.WriteLine($"-{works.NameOfWork} {works.TimeOfWork}");
+            //    }
+            //}
+
+            //ForPeople(_people.People.Include("WorkDones"));
+            //Console.WriteLine();
+            //var localQuery = _people.Employees.Include("WorkDones").ToArray();
+            //ForPeople(localQuery.AsQueryable());
+        }
+
+        //IMPORTANT IQueryable<> is very powerfull tool
+        private void ForPeople(IQueryable<PersonBase> pb)
+        {
+            foreach (var item in CustomFilter(pb))
             {
                 Console.WriteLine($"{item.FirstName} {item.LastName}: ");
-                foreach (var works in item.WorkDones)
+                if (item.WorkDones.Count > 0)
                 {
-                    Console.WriteLine($"-{works.NameOfWork} {works.TimeOfWork}");
+                    int i = 1;
+                    foreach (var work in item.WorkDones)
+                    {
+                        Console.WriteLine($"{i++}. {work.NameOfWork} {work.TimeOfWork}");
+                    }
                 }
+                else
+                    Console.WriteLine("Brak");
+                Console.WriteLine();
             }
+        }
+
+        public static IEnumerable<Employee> CustomFilter(IQueryable<PersonBase> people)
+        {
+            //people.Where((x) => x.Age >= 16 && x.Age <= 20).OrderByDescending((x) => x.Age);
+            return people.Where((x) => x is Employee).Select((x) => x as Employee).OrderBy(x => x.Age);
+            
         }
     }
 }
