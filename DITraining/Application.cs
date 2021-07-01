@@ -1,5 +1,6 @@
 ﻿using EFDataAccessLibrary.DataAccess;
 using EFDataAccessLibrary.Models;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
@@ -55,10 +56,47 @@ namespace DITraining
             //});
             //_people.SaveChanges();
 
-            var p = _people.Employees.Where(x => x.Age == 30).ToList();
-            foreach (var item in p)
+            //var p = _people.Employees.Where(x => x.Age == 30).ToList();
+            //foreach (var item in p)
+            //{
+            //    Console.WriteLine($"{item.FirstName} {item.LastName} {item.Age}");
+            //}
+
+            //_people.Add(new Employee()
+            //{
+            //    FirstName = "Gerard",
+            //    LastName = "Gacek",
+            //    Age = 20,
+            //    WorkDones = new List<WorkDone>()
+            //    {
+            //        new WorkDone()
+            //        {
+            //            NameOfWork = "Planning app",
+            //            TimeOfWork = DateTime.FromBinary(1000)
+            //        },
+            //        new WorkDone()
+            //        {
+            //            NameOfWork = "Start producing app",
+            //            TimeOfWork = DateTime.FromBinary(30000)
+            //        }
+            //    },
+            //    Position = "CEO"
+
+            //});
+            //_people.SaveChanges();
+
+            //_people.Employees.Where((x) => x.FirstName == "Gerard").Include("WorkDones").First().WorkDones.First().TimeOfWork = TimeSpan.FromMinutes(220);
+            //_people.SaveChanges();
+
+            //IMPORTANT INCLUDE()
+            var e = _people.Employees.Include("WorkDones");
+            foreach (var item in e)
             {
-                Console.WriteLine($"{item.FirstName} {item.LastName} {item.Age}");
+                Console.WriteLine($"{item.FirstName} {item.LastName}: ");
+                foreach (var works in item.WorkDones)
+                {
+                    Console.WriteLine($"-{works.NameOfWork} {works.TimeOfWork}");
+                }
             }
         }
     }

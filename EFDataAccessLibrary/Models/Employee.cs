@@ -13,5 +13,6 @@ namespace EFDataAccessLibrary.Models
         [MaxLength(10)]
         public string Position { get; set; }
         public List<Email> EmailAdressess { get; set; } = new List<Email>();
+        public List<WorkDone> WorkDones { get; set; } = new List<WorkDone>();
     }
 }
