@@ -103,6 +103,56 @@ namespace DITraining
             //Console.WriteLine();
             //var localQuery = _people.Employees.Include("WorkDones").ToArray();
             //ForPeople(localQuery.AsQueryable());
+
+            //foreach (var item in _people.WorkDone.AsEnumerable().GroupBy((x) => x.NameOfWork))
+            //{
+            //    Console.WriteLine(item.Key);
+            //    foreach (var person in _people.Employees.AsEnumerable().Where(x => x.WorkDones.Exists(x => x.NameOfWork == item.Key)))
+            //    {
+            //        Console.WriteLine($"-{person.FirstName}");
+            //    }
+            //}
+
+            //var takeExample = _people.People.Select(x => x.FirstName).Take(10);
+            //var skipExample = _people.People.Select(x => x.FirstName).Skip(90);
+            //var TakeAndSkipExample = _people.People.Select(x => x.FirstName).Skip(10).Take(10);
+            //foreach (var item in TakeAndSkipExample)
+            //{
+            //    Console.WriteLine(item);
+            //}
+
+            //IMPORTANT V1
+            //var doubleDis = from n in _people.Employees.Where(x => x.WorkDones.Count > 0)
+            //                select new
+            //                {
+            //                    works = from w in n.WorkDones
+            //                            select w,
+            //                    n.FirstName,
+            //                    n.LastName
+
+            //                };
+
+            //IMPORTANT V2
+            //var doubleDis = _people.Employees.Where(x => x.WorkDones.Count > 0)
+            //    .Select(x => new
+            //    {
+            //        x.FirstName,
+            //        x.LastName,
+            //        x.WorkDones
+            //    });
+
+            //IMPORTANT V3 - bad
+            //var doubleDis = _people.Employees.Where(x => x.WorkDones.Count > 0).Include("WorkDones").AsEnumerable()
+            //    .Select(x => (x.FirstName,x.LastName,x.WorkDones));
+
+            //foreach (var item in doubleDis)
+            //{
+            //    Console.WriteLine($"{item.FirstName} {item.LastName}");
+            //    foreach (var works in item.WorkDones)
+            //    {
+            //        Console.WriteLine($"-{works.NameOfWork}");
+            //    }
+            //}
         }
 
         //IMPORTANT IQueryable<> is very powerfull tool
@@ -125,7 +175,7 @@ namespace DITraining
             }
         }
 
-        public static IEnumerable<Employee> CustomFilter(IQueryable<PersonBase> people)
+        public static IQueryable<Employee> CustomFilter(IQueryable<PersonBase> people)
         {
             //people.Where((x) => x.Age >= 16 && x.Age <= 20).OrderByDescending((x) => x.Age);
             return people.Where((x) => x is Employee).Select((x) => x as Employee).OrderBy(x => x.Age);
