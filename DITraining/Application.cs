@@ -1,13 +1,9 @@
 ﻿using EFDataAccessLibrary.DataAccess;
 using EFDataAccessLibrary.Models;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DITraining
 {
@@ -152,6 +148,33 @@ namespace DITraining
             //    {
             //        Console.WriteLine($"-{works.NameOfWork}");
             //    }
+            //}
+
+            //IMPORTANT Distinct()
+            //var query = _people.WorkDone.Select(x => x.NameOfWork).Distinct();
+            //foreach (var item in query)
+            //{
+            //    Console.WriteLine(item);
+            //}
+
+            //string[] names = { "Dawid Wojciech Król", "Jan Kazimierz Kowalski" };
+
+            //var q = from fullname in names
+            //       // where fullname.FirstName.Split().Length > 1
+            //        from name in fullname.Split()
+            //        select name + " from " + fullname;
+            //foreach (var item in q)
+            //{
+            //    Console.WriteLine(item);
+            //}
+
+            //var w = from p in _people.Employees
+            //        from work in p.WorkDones
+            //        select $"{p.FirstName} {p.LastName} zrobił: {work.NameOfWork}";
+
+            //foreach (var item in w)
+            //{
+            //    Console.WriteLine(item);
             //}
         }
 
