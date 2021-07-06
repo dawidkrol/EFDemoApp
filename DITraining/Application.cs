@@ -172,9 +172,38 @@ namespace DITraining
             //        from work in p.WorkDones
             //        select $"{p.FirstName} {p.LastName} zrobił: {work.NameOfWork}";
 
+            //var w = from p in _people.Employees
+            //        from u in _people.Employees
+            //        where (p.FirstName + p.LastName).CompareTo(u.FirstName + u.LastName) < 0
+            //        select $"{p.FirstName} {p.LastName} vs {u.FirstName} {u.LastName}";
+
             //foreach (var item in w)
             //{
             //    Console.WriteLine(item);
+            //}
+            //var emails = _people.Employees.Where(x => x.EmailAdressess.Count > 0).Select(x => new
+            //{
+            //    x.FirstName,
+            //    x.LastName,
+            //    emails = x.EmailAdressess.Select(x => x.EmailAddress)
+            //});
+            //foreach (var item in emails)
+            //{
+            //    Console.WriteLine($"{item.FirstName} {item.LastName}");
+            //    foreach (var email in item.emails)
+            //    {
+            //        Console.WriteLine($"--{email}");
+            //    }
+            //}
+
+            //IMPORTANT Lookup<T>
+            //var look = _people.Employees.Select(x => new {x.Id,works = x.WorkDones }).ToLookup(y => y.Id, z => z.works);
+            //foreach (var item in look[104])
+            //{
+            //    foreach (var qw in item)
+            //    {
+            //        Console.WriteLine(qw.NameOfWork);
+            //    }
             //}
         }
 
