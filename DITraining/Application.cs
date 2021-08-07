@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Xml.Linq;
 
 namespace DITraining
 {
@@ -13,7 +14,7 @@ namespace DITraining
 
         public Application(PeopleContext people)
         {
-            this._people = people;
+            _people = people;
         }
         public void OnStart()
         {
@@ -197,7 +198,7 @@ namespace DITraining
             //}
 
             //IMPORTANT Lookup<T>
-            //var look = _people.Employees.Select(x => new {x.Id,works = x.WorkDones }).ToLookup(y => y.Id, z => z.works);
+            //var look = _people.Employees.Select(x => new { x.Id, x.WorkDones }).ToLookup(y => y.Id, z => z.WorkDones);
             //foreach (var item in look[104])
             //{
             //    foreach (var qw in item)
@@ -205,6 +206,53 @@ namespace DITraining
             //        Console.WriteLine(qw.NameOfWork);
             //    }
             //}
+
+            //IMPORTANT GroupBy
+            //var grouping = from n in _people.Employees
+            //               from w in n.WorkDones
+            //               select new { n.FirstName, n.LastName, w.NameOfWork };
+            //var groupingv2 = from data in grouping//.AsEnumerable()
+            //                 group data by data.NameOfWork;
+            //foreach (var item in groupingv2)
+            //{
+            //    Console.WriteLine(item.Key);
+            //    foreach (var emp in item)
+            //    {
+            //        Console.WriteLine($"- {emp.FirstName} {emp.LastName}");
+            //    }
+            //}
+
+            //var q = _people.Employees.AsEnumerable().GroupBy(x => x.FirstName);
+            //foreach (var item in q)
+            //{
+            //    Console.WriteLine(item.Key);
+            //    foreach (var lastnames in item)
+            //    {
+            //        Console.WriteLine($"- {lastnames.LastName}");
+            //    }
+            //}
+
+            // IMPORTANT XML & LINQ & Entity Framework
+            var e = _people.Employees.Select(x => new
+            {
+                x.FirstName,
+                x.LastName,
+                x.Id,
+                x.Age,
+                x.EmailAdressess
+            }).ToList().Select(x =>
+                new XElement("customer",
+                new XAttribute("id", x.Id),
+                new XElement("firstName", x.FirstName),
+                new XElement("lastName", x.LastName),
+                new XElement("age", x.Age),
+                x.EmailAdressess != null && x.EmailAdressess.Count > 0 ? new XElement("emails", x.EmailAdressess.Select(j => new XElement("email", j.EmailAddress))) : null
+                ));
+
+            foreach (var item in e)
+            {
+                Console.WriteLine(item);
+            }
         }
 
         //IMPORTANT IQueryable<> is very powerfull tool
